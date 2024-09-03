@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enregistrer le Nom</title>
+    <title>Enregistrer le Nom 2 </title>
     <style>
         body {
             display: flex;
@@ -28,48 +28,38 @@
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
-    <h1>Enregistrer votre Nom</h1>
+    <h1>Enregistrer votre Nom 2</h1>
     <input type="text" id="nameInput" placeholder="Entrez votre nom">
     <button id="saveButton">Sauvegarder</button>
 
     <script>
-        // Votre configuration Firebase
         const firebaseConfig = {
-            apiKey: "AIzaSyBGTcHbDS56KVbGbezNOTAbwaTWrdVjUns",
-            authDomain: "partie-2-e5791.firebaseapp.com",
-            databaseURL: "https://partie-2-e5791-default-rtdb.firebaseio.com",
-            projectId: "partie-2-e5791",
-            storageBucket: "partie-2-e5791.appspot.com",
-            messagingSenderId: "790955686464",
-            appId: "1:790955686464:web:ec0c80c87b009e08787da5",
-            measurementId: "G-J97N17D0TJ"
-        };
+    apiKey: "AIzaSyBGTcHbDS56KVbGbezNOTAbwaTWrdVjUns",
+    authDomain: "partie-2-e5791.firebaseapp.com",
+    databaseURL: "https://partie-2-e5791-default-rtdb.firebaseio.com",
+    projectId: "partie-2-e5791",
+    storageBucket: "partie-2-e5791.appspot.com",
+    messagingSenderId: "790955686464",
+    appId: "1:790955686464:web:ec0c80c87b009e08787da5",
+    measurementId: "G-J97N17D0TJ"
+};
 
-        // Initialiser Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+// Initialiser Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
-        // Sauvegarder le nom dans Firestore
-        document.getElementById('saveButton').addEventListener('click', function() {
-            const name = document.getElementById('nameInput').value;
+// Sauvegarder le nom dans Firestore
+document.getElementById('saveButton').addEventListener('click', function() {
+    const name = document.getElementById('nameInput').value;
 
-            if (name.trim() === "") {
-                alert("Veuillez entrer un nom.");
-                return;
-            }
+    if (name.trim() === "") {
+        alert("Veuillez entrer un nom.");
+        return;
+    }
 
-            db.collection("noms").add({
-                nom: name
-            })
-            .then(() => {
-                alert("Nom sauvegardé avec succès !");
-                document.getElementById('nameInput').value = ""; // Effacer le champ de saisie après l'enregistrement
-            })
-            .catch((error) => {
-                console.error("Erreur lors de l'ajout du document: ", error);
-                alert("Erreur lors de la sauvegarde du nom.");
-            });
-        });
+    db.ref("nom/" ).set(name);
+       
+});
     </script>
 </body>
 </html>
