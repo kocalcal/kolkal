@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enregistrer le Nom </title>
+    <title>Enregistrer le Nom 3 </title>
     <style>
         body {
             display: flex;
@@ -28,7 +28,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
-    <h1>Enregistrer votre Nom </h1>
+    <h1>Enregistrer votre Nom 3 </h1>
     <input type="text" id="nameInput" placeholder="Entrez votre nom">
     <button id="saveButton">Sauvegarder</button>
 
@@ -45,7 +45,7 @@
 };
 
 // Initialiser Firebase
-f (!firebase.apps.length) {
+if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
         var database = firebase.database();
