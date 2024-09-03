@@ -45,9 +45,10 @@
 };
 
 // Initialiser Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-
+f (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        var database = firebase.database();
 // Sauvegarder le nom dans Firestore
 document.getElementById('saveButton').addEventListener('click', function() {
     const name = document.getElementById('nameInput').value;
@@ -57,7 +58,7 @@ document.getElementById('saveButton').addEventListener('click', function() {
         return;
     }
 
-    db.ref("nom/" ).set(name);
+    database.ref("nom/" ).set(name);
        
 });
     </script>
