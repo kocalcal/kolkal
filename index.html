@@ -32,8 +32,63 @@
             cursor: pointer;
         }
     </style>
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-storage.js"></script>
 </head>
 <body>
     <h1>BLS Selfie 2</h1>
+    <video id="video" autoplay></video>
+    <button id="snap">Prendre une photo</button>
+    <canvas id="canvas" width="320" height="240"></canvas>
+
+    <script>
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBGTcHbDS56KVbGbezNOTAbwaTWrdVjUns",
+            authDomain: "partie-2-e5791.firebaseapp.com",
+            databaseURL: "https://partie-2-e5791-default-rtdb.firebaseio.com",
+            projectId: "partie-2-e5791",
+            storageBucket: "partie-2-e5791.appspot.com",
+            messagingSenderId: "790955686464",
+            appId: "1:790955686464:web:ec0c80c87b009e08787da5",
+            measurementId: "G-J97N17D0TJ"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        // Set up video
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+        const snap = document.getElementById('snap');
+
+        // Get access to the camera
+        if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+                video.srcObject = stream;
+                video.play();
+            });
+        }
+
+        // Capture photo
+        snap.addEventListener('click', function() {
+            context.drawImage(video, 0, 0, 320, 240);
+            const dataURL = canvas.toDataURL('image/png');
+            const storageRef = ref(storage, 'images/' + Date.now() + '.png');
+            uploadString(storageRef, dataURL, 'data_url').then((snapshot) => {
+                console.log('Uploaded a data_url string!');
+                alert('Photo enregistrée dans Firebase Storage');
+            }).catch((error) => {
+                console.error('Erreur lors de l\'enregistrement de la photo : ', error);
+            });
+        });
+    </script>
 </body>
 </html>
