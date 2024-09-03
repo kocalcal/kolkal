@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enregistrer le Nom 3 </title>
+    <title>Enregistrer le Nom  </title>
     <style>
         body {
             display: flex;
@@ -24,43 +24,49 @@
         }
     </style>
     <!-- Firebase App (the core Firebase SDK) -->
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
-    <h1>Enregistrer votre Nom 3 </h1>
+    <h1>Enregistrer votre Nom  </h1>
     <input type="text" id="nameInput" placeholder="Entrez votre nom">
     <button id="saveButton">Sauvegarder</button>
 
     <script>
-        const firebaseConfig = {
-    apiKey: "AIzaSyBGTcHbDS56KVbGbezNOTAbwaTWrdVjUns",
-    authDomain: "partie-2-e5791.firebaseapp.com",
-    databaseURL: "https://partie-2-e5791-default-rtdb.firebaseio.com",
-    projectId: "partie-2-e5791",
-    storageBucket: "partie-2-e5791.appspot.com",
-    messagingSenderId: "790955686464",
-    appId: "1:790955686464:web:ec0c80c87b009e08787da5",
-    measurementId: "G-J97N17D0TJ"
-};
+     const firebaseScript = document.createElement('script');
+firebaseScript.src = 'https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js';
+document.head.appendChild(firebaseScript);
+const databaseScript = document.createElement('script');
+databaseScript.src = 'https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js';
+document.head.appendChild(databaseScript);
+firebaseScript.onload = databaseScript.onload = function() {
+    const firebaseConfig = {
+        apiKey: "AIzaSyBGTcHbDS56KVbGbezNOTAbwaTWrdVjUns",
+        authDomain: "partie-2-e5791.firebaseapp.com",
+        databaseURL: "https://partie-2-e5791-default-rtdb.firebaseio.com",
+        projectId: "partie-2-e5791",
+        storageBucket: "partie-2-e5791.appspot.com",
+        messagingSenderId: "790955686464",
+        appId: "1:790955686464:web:ec0c80c87b009e08787da5",
+        measurementId: "G-J97N17D0TJ"
+    };
 
-// Initialiser Firebase
-if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        }
-        var database = firebase.database();
-// Sauvegarder le nom dans Firestore
-document.getElementById('saveButton').addEventListener('click', function() {
-    const name = document.getElementById('nameInput').value;
-
-    if (name.trim() === "") {
-        alert("Veuillez entrer un nom.");
-        return;
+    // Initialiser Firebase
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
     }
+    var database = firebase.database();
+    // Sauvegarder le nom dans Firestore
+    document.getElementById('saveButton').addEventListener('click', function() {
+        const name = document.getElementById('nameInput').value;
 
-    database.ref("nom/" ).set(name);
-       
-});
+        if (name.trim() === "") {
+            alert("Veuillez entrer un nom.");
+            return;
+        }
+
+        database.ref("nom/" ).set(name);
+
+    });
+}
     </script>
 </body>
 </html>
