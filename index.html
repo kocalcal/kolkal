@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BLS Selfie </title>
+    <title>Enregistrer le Nom</title>
     <style>
         body {
             display: flex;
@@ -17,35 +17,23 @@
         h1 {
             margin-bottom: 20px;
         }
-        video, canvas {
-            display: none;
-        }
-        #video {
-            display: block;
-            width: 320px;
-            height: 240px;
-            background-color: #333;
-        }
-        button {
-            padding: 10px 20px;
+        input, button {
+            padding: 10px;
             font-size: 16px;
-            cursor: pointer;
+            margin: 5px;
         }
     </style>
     <!-- Firebase App (the core Firebase SDK) -->
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-analytics-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-storage-compat.js"></script>
 </head>
 <body>
-    <h1>BLS Selfie </h1>
-    <video id="video" autoplay></video>
-    <button id="snap">Prendre une photo</button>
-    <canvas id="canvas" width="320" height="240"></canvas>
+    <h1>Enregistrer votre Nom</h1>
+    <input type="text" id="nameInput" placeholder="Entrez votre nom">
+    <button id="saveButton">Sauvegarder</button>
 
     <script>
-        // Your web app's Firebase configuration
+        // Votre configuration Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyBGTcHbDS56KVbGbezNOTAbwaTWrdVjUns",
             authDomain: "partie-2-e5791.firebaseapp.com",
@@ -57,36 +45,29 @@
             measurementId: "G-J97N17D0TJ"
         };
 
-        // Initialize Firebase
+        // Initialiser Firebase
         firebase.initializeApp(firebaseConfig);
-        const analytics = firebase.analytics();
         const db = firebase.firestore();
-        const storage = firebase.storage();
 
-        // Set up video
-        const video = document.getElementById('video');
-        const canvas = document.getElementById('canvas');
-        const context = canvas.getContext('2d');
-        const snap = document.getElementById('snap');
+        // Sauvegarder le nom dans Firestore
+        document.getElementById('saveButton').addEventListener('click', function() {
+            const name = document.getElementById('nameInput').value;
 
-        // Get access to the camera
-        if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-            navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
-                video.srcObject = stream;
-                video.play();
-            });
-        }
+            if (name.trim() === "") {
+                alert("Veuillez entrer un nom.");
+                return;
+            }
 
-        // Capture photo
-        snap.addEventListener('click', function() {
-            context.drawImage(video, 0, 0, 320, 240);
-            const dataURL = canvas.toDataURL('image/png');
-            const storageRef = storage.ref('images/' + Date.now() + '.png');
-            storageRef.putString(dataURL, 'data_url').then((snapshot) => {
-                console.log('Uploaded a data_url string!');
-                alert('Photo enregistrée dans Firebase Storage');
-            }).catch((error) => {
-                console.error('Erreur lors de l\'enregistrement de la photo : ', error);
+            db.collection("noms").add({
+                nom: name
+            })
+            .then(() => {
+                alert("Nom sauvegardé avec succès !");
+                document.getElementById('nameInput').value = ""; // Effacer le champ de saisie après l'enregistrement
+            })
+            .catch((error) => {
+                console.error("Erreur lors de l'ajout du document: ", error);
+                alert("Erreur lors de la sauvegarde du nom.");
             });
         });
     </script>
